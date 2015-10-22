@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">CERO FILAS</string>
+    <string name="action_settings">Terminos/Condiciones</string>
+    <string name="colors_expandable_selector_title">MENU</string>
+    <string name="title">Seleccione una opción</string>
+    <string name="title_activity_act_entidades">Lista de Entidades</string>
+    <string name="title_activity_act_ubicacion">Ubicación</string>
+
+
+    <string-array name="tabs">
+        <item>Audio en vivo</item>
+        <item>Noticias</item>
+        <item>Programación</item>
+    </string-array>
+
+</resources>
