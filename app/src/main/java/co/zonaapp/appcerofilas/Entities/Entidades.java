@@ -1,23 +1,33 @@
 package co.zonaapp.appcerofilas.Entities;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
  * Created by IngenieroGerman on 18/10/2015.
  */
 public class Entidades {
 
+    @SerializedName("uniid")
     private int idEntidad;
+
+    @SerializedName("uninombre")
     private String nombre;
+
+    @SerializedName("unidireccion")
     private String direccion;
+
+    @SerializedName("unilatitud")
     private Double latitud;
+
+    @SerializedName("unilongitud")
     private Double longitud;
 
-    public Entidades(int idEntidad, String nombre, String direccion, Double latitud, Double longitud) {
-        this.idEntidad = idEntidad;
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.latitud = latitud;
-        this.longitud = longitud;
-    }
+    @SerializedName("ubicacion")
+    private List<Ubicaciones> listUbicaciones;
+
+    static List<Entidades> staticEntidades;
 
     public int getIdEntidad() {
         return idEntidad;
@@ -58,4 +68,21 @@ public class Entidades {
     public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
+
+    public List<Ubicaciones> getListUbicaciones() {
+        return listUbicaciones;
+    }
+
+    public void setListUbicaciones(List<Ubicaciones> listUbicaciones) {
+        this.listUbicaciones = listUbicaciones;
+    }
+
+    public static List<Entidades> getStaticEntidades() {
+        return staticEntidades;
+    }
+
+    public static void setStaticEntidades(List<Entidades> staticEntidades) {
+        Entidades.staticEntidades = staticEntidades;
+    }
+
 }
