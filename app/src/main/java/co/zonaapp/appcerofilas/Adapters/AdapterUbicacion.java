@@ -49,8 +49,6 @@ public class AdapterUbicacion extends BaseAdapter {
         ViewHolder holder = (ViewHolder) convertView.getTag();
         Ubicaciones item = getItem(position);
 
-
-
         holder.txtEmpresa.setText(item.getNombre());
 
         return convertView;
