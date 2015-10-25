@@ -4,9 +4,10 @@
     <string name="colors_expandable_selector_title">MENU</string>
     <string name="title">Seleccione una opción</string>
     <string name="title_activity_act_entidades">Lista de Entidades</string>
-    <string name="title_activity_act_ubicacion">Seleccione una Ubicación</string>
+    <string name="title_activity_act_ubicacion">Seleccione Ubicación</string>
 
-    <string name="url_base">http://192.168.1.55/admin_cero_fila/services/</string>
+    <!--<string name="url_base">http://192.168.1.224/admin_cero_fila/services/</string>-->
+    <string name="url_base">http://zonaapp.co/admin_cero_fila/services/</string>
 
     <string-array name="tabs">
         <item>Audio en vivo</item>
@@ -14,5 +15,7 @@
         <item>Programación</item>
     </string-array>
     <string name="title_activity_avt">Avt</string>
+    <string name="title_activity_act_turno">Pedir turno</string>
+    <string name="title_activity_act_secedes">Seleccione Sede</string>
 
 </resources>

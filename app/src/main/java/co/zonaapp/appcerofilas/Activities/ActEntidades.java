@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -71,9 +70,7 @@ public class ActEntidades extends AppCompatActivity {
         ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-
-                return params;
+                return new HashMap<>();
             }
         };
         rq.add(jsonRequest);

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import co.zonaapp.appcerofilas.Activities.ActEntidades;
+import co.zonaapp.appcerofilas.Activities.ActSecedes;
 import co.zonaapp.appcerofilas.Activities.ActUbicacion;
 import co.zonaapp.appcerofilas.Activities.SimpleScannerActivity;
 import co.zonaapp.appcerofilas.Entities.Entidades;
@@ -35,8 +36,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<RowViewHolder>  {
     public RowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_entidades, parent, false);
-        RowViewHolder viewHolder = new RowViewHolder(v, context);
-        return viewHolder;
+        return new RowViewHolder(v, context);
     }
 
     @Override
@@ -50,8 +50,7 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<RowViewHolder>  {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("posicion", position);
-                context.startActivity(new Intent(context, ActUbicacion.class).putExtras(bundle));
-                //overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                context.startActivity(new Intent(context, ActSecedes.class).putExtras(bundle));
             }
         });
     }

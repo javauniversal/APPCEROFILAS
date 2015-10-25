@@ -7,19 +7,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import co.zonaapp.appcerofilas.Adapters.AdapterUbicacion;
+
+import co.zonaapp.appcerofilas.Adapters.AdapterSedes;
 import co.zonaapp.appcerofilas.Entities.Entidades;
 import co.zonaapp.appcerofilas.R;
 
-public class ActUbicacion extends AppCompatActivity {
+public class ActSecedes extends AppCompatActivity {
 
     private Bundle bundle;
     private ListView listView;
-
+    private int posicionEntidad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_ubicacion);
+        setContentView(R.layout.layout_act_secedes);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,24 +33,27 @@ public class ActUbicacion extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        listView = (ListView) findViewById(R.id.listViewUbicacion);
+        listView = (ListView) findViewById(R.id.listViewSede);
 
         Intent intent = getIntent();
         bundle = intent.getExtras();
 
-        int posicionEntidad = bundle.getInt("posicionEntida");
-        int posicionSede = bundle.getInt("posicionSede");
+        posicionEntidad = bundle.getInt("posicion");
 
-        AdapterUbicacion adapter = new AdapterUbicacion(this, Entidades.getStaticEntidades().get(posicionEntidad).getListSedes().get(posicionSede).getListUbicaciones());
+        AdapterSedes adapter = new AdapterSedes(this, Entidades.getStaticEntidades().get(posicionEntidad).getListSedes());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(ActUbicacion.this, ActTurno.class).putExtras(bundle));
+            public void onItemClick(AdapterView<?> parent, View view, int positionSede, long id) {
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("posicionEntida", posicionEntidad);
+                bundle.putInt("posicionSede", positionSede);
+
+                startActivity(new Intent(ActSecedes.this, ActUbicacion.class).putExtras(bundle));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
-
 
     }
 

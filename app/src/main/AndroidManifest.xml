@@ -39,6 +39,24 @@
         <activity
             android:name=".Activities.ActUbicacion"
             android:label="@string/title_activity_act_ubicacion"
+            android:parentActivityName=".Activities.ActSecedes"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.zonaapp.appcerofilas.Activities.ActEntidades" />
+        </activity>
+        <activity
+            android:name=".Activities.ActTurno"
+            android:label="@string/title_activity_act_turno"
+            android:parentActivityName=".Activities.ActUbicacion"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.zonaapp.appcerofilas.Activities.ActUbicacion" />
+        </activity>
+        <activity
+            android:name=".Activities.ActSecedes"
+            android:label="@string/title_activity_act_secedes"
             android:parentActivityName=".Activities.ActEntidades"
             android:theme="@style/AppTheme" >
             <meta-data

@@ -14,26 +14,25 @@ import co.zonaapp.appcerofilas.Entities.Sedes;
 import co.zonaapp.appcerofilas.Entities.Ubicaciones;
 import co.zonaapp.appcerofilas.R;
 
-public class AdapterUbicacion extends BaseAdapter {
+public class AdapterSedes extends BaseAdapter {
 
     private Activity actx;
-    private List<Ubicaciones> data;
+    private List<Sedes> data;
 
-    public AdapterUbicacion(Activity actx, List<Ubicaciones> data){
+    public AdapterSedes(Activity actx, List<Sedes> data){
         this.actx = actx;
         this.data = data;
     }
 
     @Override
     public int getCount() {
-
         if(data == null || data.size() < 0) return 0;
 
         return data.size();
     }
 
     @Override
-    public Ubicaciones getItem(int position) {
+    public Sedes getItem(int position) {
         return data.get(position);
     }
 
@@ -51,9 +50,9 @@ public class AdapterUbicacion extends BaseAdapter {
         }
 
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        Ubicaciones item = getItem(position);
+        Sedes item = getItem(position);
 
-        holder.txtEmpresa.setText(item.getUbinombre());
+        holder.txtEmpresa.setText(item.getSednombre());
 
         return convertView;
     }

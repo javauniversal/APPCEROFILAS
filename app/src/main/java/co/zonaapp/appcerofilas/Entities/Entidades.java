@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-/**
- * Created by IngenieroGerman on 18/10/2015.
- */
 public class Entidades {
 
     @SerializedName("uniid")
@@ -24,8 +21,8 @@ public class Entidades {
     @SerializedName("unilongitud")
     private Double longitud;
 
-    @SerializedName("ubicacion")
-    private List<Ubicaciones> listUbicaciones;
+    @SerializedName("sedes")
+    private List<Sedes> listSedes;
 
     static List<Entidades> staticEntidades;
 
@@ -69,12 +66,12 @@ public class Entidades {
         this.longitud = longitud;
     }
 
-    public List<Ubicaciones> getListUbicaciones() {
-        return listUbicaciones;
+    public List<Sedes> getListSedes() {
+        return listSedes;
     }
 
-    public void setListUbicaciones(List<Ubicaciones> listUbicaciones) {
-        this.listUbicaciones = listUbicaciones;
+    public void setListSedes(List<Sedes> listSedes) {
+        this.listSedes = listSedes;
     }
 
     public static List<Entidades> getStaticEntidades() {
