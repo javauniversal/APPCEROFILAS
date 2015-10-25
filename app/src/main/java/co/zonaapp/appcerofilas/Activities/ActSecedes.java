@@ -40,21 +40,26 @@ public class ActSecedes extends AppCompatActivity {
 
         posicionEntidad = bundle.getInt("posicion");
 
-        AdapterSedes adapter = new AdapterSedes(this, Entidades.getStaticEntidades().get(posicionEntidad).getListSedes());
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int positionSede, long id) {
+        if(Entidades.getStaticEntidades().get(posicionEntidad).getListSedes() == null || Entidades.getStaticEntidades().get(posicionEntidad).getListSedes().size() < 0){
+            Intent intentActivity = new Intent(getApplicationContext(), DetailsActivity.class);
+            intentActivity.putExtra("STATE", "EMPTY");
+            startActivity(intentActivity);
+        }else {
+            AdapterSedes adapter = new AdapterSedes(this, Entidades.getStaticEntidades().get(posicionEntidad).getListSedes());
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int positionSede, long id) {
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("posicionEntida", posicionEntidad);
-                bundle.putInt("posicionSede", positionSede);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("posicionEntida", posicionEntidad);
+                    bundle.putInt("posicionSede", positionSede);
 
-                startActivity(new Intent(ActSecedes.this, ActUbicacion.class).putExtras(bundle));
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            }
-        });
-
+                    startActivity(new Intent(ActSecedes.this, ActUbicacion.class).putExtras(bundle));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            });
+        }
     }
 
 }

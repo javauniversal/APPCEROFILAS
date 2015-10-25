@@ -11,4 +11,6 @@
     <color name="orange">#FFE29B33</color>
     <color name="pink">#FFE9C7C7</color>
     <color name="gray">#FF929292</color>
+    <color name="colorSinDatos">#fbc02d</color>
+    <color name="colorErrorConexion">#42a5f5</color>
 </resources>

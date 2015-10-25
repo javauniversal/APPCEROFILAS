@@ -36,4 +36,7 @@ dependencies {
     compile 'com.github.orangegangsters:swipy:1.2.0@aar'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.mcxiaoke.volley:library:1.0.7'
+    compile 'com.google.android.gms:play-services:8.1.0'
+    compile 'com.github.vlonjatg:progress-activity:v1.0.3'
+    compile 'com.malinskiy:materialicons:1.0.2'
 }

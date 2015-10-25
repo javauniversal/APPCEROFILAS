@@ -17,5 +17,6 @@
     <string name="title_activity_avt">Avt</string>
     <string name="title_activity_act_turno">Pedir turno</string>
     <string name="title_activity_act_secedes">Seleccione Sede</string>
+    <string name="title_activity_act_maps">Map</string>
 
 </resources>

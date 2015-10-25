@@ -1,5 +1,6 @@
 package co.zonaapp.appcerofilas.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +27,12 @@ import co.zonaapp.appcerofilas.Entities.Entidades;
 import co.zonaapp.appcerofilas.Entities.ListEntidades;
 import co.zonaapp.appcerofilas.R;
 
-public class ActEntidades extends AppCompatActivity {
+public class ActEntidades extends AppCompatActivity implements SwipyRefreshLayout.OnRefreshListener {
 
     private RecyclerView recycler;
     private RecyclerView.LayoutManager lManager;
     private RecyclerView.Adapter adapter;
+    private SwipyRefreshLayout mSwipyRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,9 @@ public class ActEntidades extends AppCompatActivity {
         // Usar un administrador para LinearLayout
         lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);
+
+        mSwipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.swipyrefreshlayout);
+        mSwipyRefreshLayout.setOnRefreshListener(this);
 
         LoadEntity();
     }
@@ -64,7 +72,11 @@ public class ActEntidades extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Toast.makeText(ActEntidades.this, "No tiene conexión a internet ", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(ActEntidades.this, "No tiene conexión a internet ", Toast.LENGTH_LONG).show();
+                        mSwipyRefreshLayout.setRefreshing(false);
+                        Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                        intent.putExtra("STATE", "ERROR");
+                        startActivity(intent);
                     }
                 }
         ) {
@@ -90,9 +102,18 @@ public class ActEntidades extends AppCompatActivity {
                 ex.printStackTrace();
                 indicant = false;
             }
+        }else {
+            Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+            intent.putExtra("STATE", "EMPTY");
+            startActivity(intent);
         }
 
+        mSwipyRefreshLayout.setRefreshing(false);
         return indicant;
     }
 
+    @Override
+    public void onRefresh(SwipyRefreshLayoutDirection direction) {
+        LoadEntity();
+    }
 }
