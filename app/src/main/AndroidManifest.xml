@@ -86,9 +86,13 @@
             android:name=".ActMaps"
             android:label="@string/title_activity_act_maps" >
         </activity>
+        <activity android:name=".Activities.DetailsActivity" />
 
-        <activity
-            android:name=".Activities.DetailsActivity"/>
+        <service
+            android:name=".Services.ServiceLocation"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

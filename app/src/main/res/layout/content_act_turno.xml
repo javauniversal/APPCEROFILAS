@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_margin="10dp"
                 android:layout_height="match_parent">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:orientation="vertical"
@@ -158,6 +159,31 @@
                                 android:id="@+id/horaFina"
                                 android:gravity="center_vertical|center_horizontal" />
                         </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:padding="6dp"
+                        android:background="@drawable/border_shadow"
+                        android:layout_gravity="center_horizontal|top">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Distancia del punto A al punto B"
+                            android:id="@+id/txtDistance"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Km"
+                            android:id="@+id/txtDistanceValor"
+                            android:layout_marginTop="2dp" />
 
                     </LinearLayout>
 
