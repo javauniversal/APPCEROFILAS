@@ -1,5 +1,6 @@
 package co.zonaapp.appcerofilas;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,9 +10,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -45,6 +50,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
     private Bundle bundle;
     private ServiceLocation appLocationService;
     private Location nwLocation;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +68,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setPedirTurno();
+                dialogMedioTransporte();
             }
         });
 
@@ -118,6 +124,9 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         TextView txtDistance = (TextView) findViewById(R.id.txtDistance);
         txtDistance.setTypeface(type);
 
+        TextView txttxtTieAprCam = (TextView) findViewById(R.id.txtTieAprCam);
+        txttxtTieAprCam.setTypeface(type);
+
         //SET TXT
         TextView txtNombre = (TextView) findViewById(R.id.txtNombreEntidad);
         txtNombre.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getNombre());
@@ -146,6 +155,29 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         TextView txtEspera = (TextView) findViewById(R.id.txtTurnosEspera);
         txtEspera.setText(String.format("%1$s %2$s", Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getTurno(), "Personas"));
 
+        TextView txtCaminando = (TextView) findViewById(R.id.txtTieAprCamValor);
+        txtCaminando.setText(String.format("%1$s %2$s", calculoTiempo(0.1), "Minutos"));
+
+        TextView txtAutomovil = (TextView) findViewById(R.id.txtTieAprAutoValor);
+        txtAutomovil.setText(String.format("%1$s %2$s", calculoTiempo(30), "Minutos"));
+
+        TextView txtBicicleta = (TextView) findViewById(R.id.txtTieAprBiciletaValor);
+        txtBicicleta.setText(String.format("%1$s %2$s", calculoTiempo(10), "Minutos"));
+
+    }
+
+    //Calculo tiempo minutos
+    private double calculoTiempo(double recorrido){
+
+        double disCalculo = distancia() * 1000; //Convertir km * Metros * Segundos
+        double minutosSegundo = disCalculo / recorrido;
+        double result = minutosSegundo * 1 / 60;
+
+        //String val = String.valueOf(result);
+        //BigDecimal big = new BigDecimal(val);
+        //big = big.setScale(2, RoundingMode.HALF_UP);
+
+        return result;
     }
 
     //Calcula la distancia de un puto a otro
@@ -156,7 +188,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         locationD.setLatitude(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLatitud());
         locationD.setLongitude(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLongitud());
 
-        float distance = Math.round(nwLocation.distanceTo(locationD)/1000);
+        float distance = Math.round(nwLocation.distanceTo(locationD) / 1000);
 
         return distance;
     }
@@ -187,7 +219,35 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
                 .color(Color.RED));
     }
 
-    private void setPedirTurno(){
+    //Seleccionar el medio de transporte
+    public void dialogMedioTransporte(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.items_medio_transporte, null);
+        dialogBuilder.setView(dialogView);
+        alertDialog = dialogBuilder.create();
+        RadioGroup radioGroup = (RadioGroup) dialogView.findViewById(R.id.rdbg);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                double tiempoR = 0;
+                if (checkedId == R.id.rdCaminando)
+                    tiempoR = 0.5; // Metros * segundos
+                else if (checkedId == R.id.rdAuto)
+                    tiempoR = 8.33; //Metros * segundos
+                else if (checkedId == R.id.rdBicicleta)
+                    tiempoR = 2.77; //Metros * segundos
+
+                setPedirTurno(tiempoR);
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    //Metodo http servicio
+    private void setPedirTurno(final double tiempo){
+        alertDialog.dismiss();
         String url = String.format("%1$s%2$s", getString(R.string.url_base), "setPedirTurno");
         RequestQueue rq = Volley.newRequestQueue(this);
         StringRequest jsonRequest = new StringRequest(Request.Method.POST, url,
@@ -196,6 +256,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
                     public void onResponse(String response) {
                         // response
                         //parseJSON(response);
+                        Toast.makeText(ActMaps.this, response, Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener(){
@@ -208,18 +269,17 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
                 Map<String, String> params = new HashMap<>();
 
                 TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-                telephonyManager.getDeviceId();
 
                 params.put("idEntidad", String.valueOf(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getIdEntidad()));
                 params.put("idSede", String.valueOf(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getSedid()));
                 params.put("idUbicacion", String.valueOf(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getUbiid()));
-                params.put("distancia", "");
-                params.put("latitud", "");
-                params.put("longitud", "");
+                params.put("distancia", String.valueOf(distancia()));
+                params.put("latitud", String.valueOf(nwLocation.getLatitude()));
+                params.put("longitud", String.valueOf(nwLocation.getLongitude()));
+                params.put("selecttranspote", String.valueOf(tiempo));
                 params.put("deviceIde", telephonyManager.getDeviceId());
 
                 return params;
