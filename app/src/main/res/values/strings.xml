@@ -18,5 +18,21 @@
     <string name="title_activity_act_turno">Pedir turno</string>
     <string name="title_activity_act_secedes">Seleccione Sede</string>
     <string name="title_activity_act_maps">Map</string>
+    <string name="sedes">Plaza mayor</string>
+    <string name="entidad">Entidad</string>
+    <string name="entejuridico">Bancolombia</string>
+    <string name="sede">Sede</string>
+    <string name="ubicacion">Ubicación</string>
+    <string name="puestotrabajo">Caja 12</string>
+    <string name="horaat">Hora de Atención L - V</string>
+    <string name="hora">08:00:00</string>
+    <string name="hora2">18:00:00</string>
+    <string name="distancia">Distancia del punto A al punto B</string>
+    <string name="personas">12 persona</string>
+    <string name="kilometros">Km</string>
+    <string name="tiempoapro">Tiempo aproximado de llegada</string>
+    <string name="minutos">12 Minutos</string>
+    <string name="promedio">Promedio de Atención</string>
+    <string name="turno">Turnos en espera</string>
 
 </resources>
