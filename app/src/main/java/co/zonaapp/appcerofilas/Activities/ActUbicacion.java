@@ -13,6 +13,7 @@ import co.zonaapp.appcerofilas.Adapters.AdapterUbicacion;
 import co.zonaapp.appcerofilas.R;
 
 import static co.zonaapp.appcerofilas.Entities.Areas.getListUbicacionStatic;
+import static co.zonaapp.appcerofilas.Entities.Ubicaciones.setUbicaciones;
 
 public class ActUbicacion extends AppCompatActivity {
 
@@ -47,6 +48,7 @@ public class ActUbicacion extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int posicionUbicacion, long id) {
 
+                    setUbicaciones(getListUbicacionStatic().get(posicionUbicacion));
 
                     startActivity(new Intent(ActUbicacion.this, ActMaps.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

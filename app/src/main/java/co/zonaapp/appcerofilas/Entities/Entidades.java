@@ -27,6 +27,8 @@ public class Entidades {
     @SerializedName("sedes")
     private List<Sedes> listSedes;
 
+    public static Sedes sedes;
+
     public static Entidades entidadSelect;
 
     public int getIdEntidad() {
@@ -84,5 +86,13 @@ public class Entidades {
     public static Entidades getEntidadSelect() { return entidadSelect; }
 
     public static void setEntidadSelect(Entidades entidadSelect) { Entidades.entidadSelect = entidadSelect; }
+
+    public static Sedes getSedes() {
+        return sedes;
+    }
+
+    public static void setSedes(Sedes sedes) {
+        Entidades.sedes = sedes;
+    }
 
 }

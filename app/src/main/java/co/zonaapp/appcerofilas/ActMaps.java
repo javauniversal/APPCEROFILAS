@@ -44,6 +44,11 @@ import co.zonaapp.appcerofilas.Activities.DetailsActivity;
 import co.zonaapp.appcerofilas.Entities.Entidades;
 import co.zonaapp.appcerofilas.Services.ServiceLocation;
 
+import static co.zonaapp.appcerofilas.Entities.Entidades.getEntidadSelect;
+import static co.zonaapp.appcerofilas.Entities.Entidades.getSedes;
+import static co.zonaapp.appcerofilas.Entities.Sedes.getListAreasStatic;
+import static co.zonaapp.appcerofilas.Entities.Ubicaciones.getUbicaciones;
+
 public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -129,31 +134,31 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
 
         //SET TXT
         TextView txtNombre = (TextView) findViewById(R.id.txtNombreEntidad);
-        //txtNombre.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getNombre());
+        txtNombre.setText(getEntidadSelect().getNombre());
 
         TextView txtNombreSede = (TextView) findViewById(R.id.txtNombreSede);
-        //txtNombreSede.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getSednombre());
+        txtNombreSede.setText(getUbicaciones().getSednombre());
 
         TextView txtNombreUbicacion = (TextView) findViewById(R.id.txtNombreUbicacion);
-        //txtNombreUbicacion.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getUbinombre());
+        txtNombreUbicacion.setText(getUbicaciones().getUbinombre());
 
         TextView txtHoraInicial = (TextView) findViewById(R.id.horaInicial);
-        //txtHoraInicial.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getHorhorai());
+        txtHoraInicial.setText(getUbicaciones().getHorhorai());
 
         TextView txtDistanceValor = (TextView) findViewById(R.id.txtDistanceValor);
         txtDistanceValor.setText(String.format("%1$s Km", distancia()));
 
         TextView txtHoraFinal = (TextView) findViewById(R.id.horaFina);
-        //txtHoraFinal.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getHorhoraf());
+        txtHoraFinal.setText(getUbicaciones().getHorhoraf());
 
-        //int promedioInt = Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getProtiempo();
-        //String promedioFormato = Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getProformato();
+        int promedioInt = getUbicaciones().getProtiempo();
+        String promedioFormato = getUbicaciones().getProformato();
 
         TextView txtPromedio = (TextView) findViewById(R.id.txtPromedioAtencion);
-        //txtPromedio.setText(String.format("%1$s %2$s", promedioInt, promedioFormato));
+        txtPromedio.setText(String.format("%1$s %2$s", promedioInt, promedioFormato));
 
         TextView txtEspera = (TextView) findViewById(R.id.txtTurnosEspera);
-        //txtEspera.setText(String.format("%1$s %2$s", Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getTurno(), "Personas"));
+        txtEspera.setText(String.format("%1$s %2$s", getUbicaciones().getTurno(), "Personas"));
 
         TextView txtCaminando = (TextView) findViewById(R.id.txtTieAprCamValor);
         txtCaminando.setText(String.format("%1$s %2$s", calculoTiempo(0.1), "Minutos"));
@@ -185,8 +190,8 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         nwLocation = appLocationService.getLocation();
 
         Location locationD = new Location("point D");
-        //locationD.setLatitude(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLatitud());
-        //locationD.setLongitude(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLongitud());
+        locationD.setLatitude(getUbicaciones().getLatitud());
+        locationD.setLongitude(getUbicaciones().getLongitud());
 
         float distance = Math.round(nwLocation.distanceTo(locationD) / 1000);
 
@@ -196,9 +201,9 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
     //Marcadores en el mapa
     private void markerMaps(){
 
-        //LatLng entidad = new LatLng(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLatitud(), Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLongitud());
+        LatLng entidad = new LatLng(getUbicaciones().getLatitud(), getUbicaciones().getLongitud());
 
-        /*mMap.addMarker(new MarkerOptions().position(entidad).title(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getNombre()));
+        mMap.addMarker(new MarkerOptions().position(entidad).title(getUbicaciones().getSednombre()));
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(entidad)      // Sets the center of the map to LatLng (refer to previous snippet)
@@ -206,17 +211,17 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
                 // .bearing(50)       // Sets the orientation of the camera to east
                 .tilt(45)             // Sets the tilt of the camera to 30 degrees
                 .build();             // Creates a CameraPosition from the builder
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
     }
 
     //Marcador de la distancia de un punto a otro
     private void markerDistance(){
-        /*mMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLatitud(), Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getLongitud()),
+        mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(getUbicaciones().getLatitud(), getUbicaciones().getLongitud()),
                         new LatLng(nwLocation.getLatitude(), nwLocation.getLongitude()))
                 .width(5)
-                .color(Color.RED));*/
+                .color(Color.RED));
     }
 
     //Seleccionar el medio de transporte
@@ -271,16 +276,16 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                /*TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 
-                params.put("idEntidad", String.valueOf(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getIdEntidad()));
-                params.put("idSede", String.valueOf(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getSedid()));
-                params.put("idUbicacion", String.valueOf(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getUbiid()));
+                params.put("idEntidad", String.valueOf(getEntidadSelect().getIdEntidad()));
+                params.put("idSede", String.valueOf(getSedes().getSedid()));
+                params.put("idUbicacion", String.valueOf(getUbicaciones().getUbiid()));
                 params.put("distancia", String.valueOf(distancia()));
                 params.put("latitud", String.valueOf(nwLocation.getLatitude()));
                 params.put("longitud", String.valueOf(nwLocation.getLongitude()));
                 params.put("selecttranspote", String.valueOf(tiempo));
-                params.put("deviceIde", telephonyManager.getDeviceId());*/
+                params.put("deviceIde", telephonyManager.getDeviceId());
 
                 return params;
             }

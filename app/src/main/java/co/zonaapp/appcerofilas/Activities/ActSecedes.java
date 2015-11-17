@@ -13,6 +13,7 @@ import co.zonaapp.appcerofilas.Entities.Areas;
 import co.zonaapp.appcerofilas.Entities.Entidades;
 import co.zonaapp.appcerofilas.R;
 
+import static co.zonaapp.appcerofilas.Entities.Entidades.setSedes;
 import static co.zonaapp.appcerofilas.Entities.Sedes.setListAreasStatic;
 
 public class ActSecedes extends AppCompatActivity {
@@ -47,6 +48,8 @@ public class ActSecedes extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int positionSede, long id) {
 
                     setListAreasStatic(Entidades.getEntidadSelect().getListSedes().get(positionSede).getLisAreas());
+
+                    setSedes(Entidades.getEntidadSelect().getListSedes().get(positionSede));
 
                     startActivity(new Intent(ActSecedes.this, ActArea.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

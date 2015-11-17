@@ -2,9 +2,6 @@ package co.zonaapp.appcerofilas.Entities;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Time;
-import java.util.List;
-
 public class Ubicaciones {
 
     @SerializedName("uninombre")
@@ -18,6 +15,9 @@ public class Ubicaciones {
 
     @SerializedName("ubinombre")
     private String ubinombre;
+
+    @SerializedName("ubiid")
+    private String ubiid;
 
     @SerializedName("latitud")
     private Double latitud;
@@ -45,6 +45,8 @@ public class Ubicaciones {
 
     @SerializedName("turno")
     private int turno;
+
+    public static Ubicaciones ubicaciones;
 
     public String getUninombre() {
         return uninombre;
@@ -149,4 +151,21 @@ public class Ubicaciones {
     public void setTurno(int turno) {
         this.turno = turno;
     }
+
+    public static Ubicaciones getUbicaciones() {
+        return ubicaciones;
+    }
+
+    public static void setUbicaciones(Ubicaciones ubicaciones) {
+        Ubicaciones.ubicaciones = ubicaciones;
+    }
+
+    public String getUbiid() {
+        return ubiid;
+    }
+
+    public void setUbiid(String ubiid) {
+        this.ubiid = ubiid;
+    }
+
 }
