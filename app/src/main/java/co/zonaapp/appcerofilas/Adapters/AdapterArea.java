@@ -9,15 +9,16 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import co.zonaapp.appcerofilas.Entities.Areas;
 import co.zonaapp.appcerofilas.Entities.Sedes;
 import co.zonaapp.appcerofilas.R;
 
-public class AdapterSedes extends BaseAdapter {
+public class AdapterArea extends BaseAdapter {
 
     private Activity actx;
-    private List<Sedes> data;
+    private List<Areas> data;
 
-    public AdapterSedes(Activity actx, List<Sedes> data){
+    public AdapterArea(Activity actx, List<Areas> data){
         this.actx = actx;
         this.data = data;
     }
@@ -30,7 +31,7 @@ public class AdapterSedes extends BaseAdapter {
     }
 
     @Override
-    public Sedes getItem(int position) {
+    public Areas getItem(int position) {
         return data.get(position);
     }
 
@@ -48,9 +49,9 @@ public class AdapterSedes extends BaseAdapter {
         }
 
         ViewHolder holder = (ViewHolder) convertView.getTag();
-        Sedes item = getItem(position);
+        Areas item = getItem(position);
 
-        holder.txtEmpresa.setText(item.getSednombre());
+        holder.txtEmpresa.setText(item.getNombre());
 
         return convertView;
     }

@@ -9,14 +9,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import co.zonaapp.appcerofilas.Adapters.AdapterSedes;
+import co.zonaapp.appcerofilas.Entities.Areas;
 import co.zonaapp.appcerofilas.Entities.Entidades;
 import co.zonaapp.appcerofilas.R;
 
+import static co.zonaapp.appcerofilas.Entities.Sedes.setListAreasStatic;
+
 public class ActSecedes extends AppCompatActivity {
 
-    private Bundle bundle;
-    private ListView listView;
-    private int posicionEntidad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,29 +33,22 @@ public class ActSecedes extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        listView = (ListView) findViewById(R.id.listViewSede);
+        ListView listView = (ListView) findViewById(R.id.listViewSede);
 
-        Intent intent = getIntent();
-        bundle = intent.getExtras();
-
-        posicionEntidad = bundle.getInt("posicion");
-
-        if(Entidades.getStaticEntidades().get(posicionEntidad).getListSedes() == null || Entidades.getStaticEntidades().get(posicionEntidad).getListSedes().size() < 0){
+        if(Entidades.getEntidadSelect().getListSedes() == null || Entidades.getEntidadSelect().getListSedes().size() < 0){
             Intent intentActivity = new Intent(getApplicationContext(), DetailsActivity.class);
             intentActivity.putExtra("STATE", "EMPTY");
             startActivity(intentActivity);
         }else {
-            AdapterSedes adapter = new AdapterSedes(this, Entidades.getStaticEntidades().get(posicionEntidad).getListSedes());
+            AdapterSedes adapter = new AdapterSedes(this, Entidades.getEntidadSelect().getListSedes());
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int positionSede, long id) {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("posicionEntida", posicionEntidad);
-                    bundle.putInt("posicionSede", positionSede);
+                    setListAreasStatic(Entidades.getEntidadSelect().getListSedes().get(positionSede).getLisAreas());
 
-                    startActivity(new Intent(ActSecedes.this, ActUbicacion.class).putExtras(bundle));
+                    startActivity(new Intent(ActSecedes.this, ActArea.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });

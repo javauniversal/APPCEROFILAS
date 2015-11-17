@@ -110,6 +110,6 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
                     }
                 });
             }
-        }, 2000);
+        }, 2000 );
     }
 }

@@ -8,23 +8,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import co.zonaapp.appcerofilas.ActMaps;
-import co.zonaapp.appcerofilas.Adapters.AdapterUbicacion;
+import co.zonaapp.appcerofilas.Adapters.AdapterArea;
 import co.zonaapp.appcerofilas.R;
 
-import static co.zonaapp.appcerofilas.Entities.Areas.getListUbicacionStatic;
+import static co.zonaapp.appcerofilas.Entities.Areas.setListUbicacionStatic;
+import static co.zonaapp.appcerofilas.Entities.Sedes.getListAreasStatic;
 
-public class ActUbicacion extends AppCompatActivity {
-
-    private ListView listView;
+public class ActArea extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_ubicacion);
+        setContentView(R.layout.layout_area);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -34,21 +31,22 @@ public class ActUbicacion extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        listView = (ListView) findViewById(R.id.listViewUbicacion);
+        ListView listView = (ListView) findViewById(R.id.listViewAreas);
 
-        if(getListUbicacionStatic() == null || getListUbicacionStatic().size() < 0){
+        if(getListAreasStatic() == null || getListAreasStatic().size() < 0){
             Intent intentActivity = new Intent(getApplicationContext(), DetailsActivity.class);
             intentActivity.putExtra("STATE", "EMPTY");
             startActivity(intentActivity);
         }else {
-            AdapterUbicacion adapter = new AdapterUbicacion(this, getListUbicacionStatic());
+            AdapterArea adapter = new AdapterArea(this, getListAreasStatic());
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int posicionUbicacion, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                    setListUbicacionStatic(getListAreasStatic().get(position).getListUbicaciones());
 
-                    startActivity(new Intent(ActUbicacion.this, ActMaps.class));
+                    startActivity(new Intent(ActArea.this, ActUbicacion.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });

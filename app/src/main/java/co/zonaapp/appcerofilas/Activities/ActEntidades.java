@@ -93,11 +93,14 @@ public class ActEntidades extends AppCompatActivity implements SwipyRefreshLayou
         Gson gson = new Gson();
         if (!json.equals("[]")){
             try {
+
                 ListEntidades listEntidades = gson.fromJson(json, ListEntidades.class);
-                Entidades.setStaticEntidades(listEntidades);
+
                 adapter = new AdapterRecyclerView(this, listEntidades);
+
                 recycler.setAdapter(adapter);
                 indicant = true;
+
             }catch (IllegalStateException ex) {
                 ex.printStackTrace();
                 indicant = false;

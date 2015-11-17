@@ -21,10 +21,13 @@ public class Entidades {
     @SerializedName("unilongitud")
     private Double longitud;
 
+    @SerializedName("uniestado")
+    private int uniestado;
+
     @SerializedName("sedes")
     private List<Sedes> listSedes;
 
-    static List<Entidades> staticEntidades;
+    public static Entidades entidadSelect;
 
     public int getIdEntidad() {
         return idEntidad;
@@ -66,20 +69,20 @@ public class Entidades {
         this.longitud = longitud;
     }
 
-    public List<Sedes> getListSedes() {
-        return listSedes;
+    public int getUniestado() {
+        return uniestado;
     }
 
-    public void setListSedes(List<Sedes> listSedes) {
-        this.listSedes = listSedes;
+    public void setUniestado(int uniestado) {
+        this.uniestado = uniestado;
     }
 
-    public static List<Entidades> getStaticEntidades() {
-        return staticEntidades;
-    }
+    public List<Sedes> getListSedes() { return listSedes; }
 
-    public static void setStaticEntidades(List<Entidades> staticEntidades) {
-        Entidades.staticEntidades = staticEntidades;
-    }
+    public void setListSedes(List<Sedes> listSedes) { this.listSedes = listSedes; }
+
+    public static Entidades getEntidadSelect() { return entidadSelect; }
+
+    public static void setEntidadSelect(Entidades entidadSelect) { Entidades.entidadSelect = entidadSelect; }
 
 }

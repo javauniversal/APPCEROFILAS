@@ -16,6 +16,8 @@ import co.zonaapp.appcerofilas.Entities.Entidades;
 import co.zonaapp.appcerofilas.Entities.RowViewHolder;
 import co.zonaapp.appcerofilas.R;
 
+import static co.zonaapp.appcerofilas.Entities.Entidades.setEntidadSelect;
+
 public class AdapterRecyclerView extends RecyclerView.Adapter<RowViewHolder>  {
 
     Context context;
@@ -36,15 +38,13 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<RowViewHolder>  {
     @Override
     public void onBindViewHolder(RowViewHolder holder, final int position) {
         final Entidades items = itemsList.get(position);
-
         holder.nombre.setText(items.getNombre());
         holder.secundario.setText(items.getDireccion());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("posicion", position);
-                context.startActivity(new Intent(context, ActSecedes.class).putExtras(bundle));
+                setEntidadSelect(items);
+                context.startActivity(new Intent(context, ActSecedes.class));
             }
         });
     }

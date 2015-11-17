@@ -14,6 +14,7 @@
         <item>Noticias</item>
         <item>Programación</item>
     </string-array>
+
     <string name="title_activity_avt">Avt</string>
     <string name="title_activity_act_turno">Pedir turno</string>
     <string name="title_activity_act_secedes">Seleccione Sede</string>
@@ -34,5 +35,6 @@
     <string name="minutos">12 Minutos</string>
     <string name="promedio">Promedio de Atención</string>
     <string name="turno">Turnos en espera</string>
+    <string name="title_activity_act_area">Seleccione Area</string>
 
 </resources>

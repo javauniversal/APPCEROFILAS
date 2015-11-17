@@ -57,28 +57,28 @@ public class ActTurno extends AppCompatActivity {
 
         //SET TXT
         TextView txtNombre = (TextView) findViewById(R.id.txtNombreEntidad);
-        txtNombre.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getNombre());
+        //txtNombre.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getNombre());
 
         TextView txtNombreSede = (TextView) findViewById(R.id.txtNombreSede);
-        txtNombreSede.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getSednombre());
+        //txtNombreSede.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getSednombre());
 
         TextView txtNombreUbicacion = (TextView) findViewById(R.id.txtNombreUbicacion);
-        txtNombreUbicacion.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getUbinombre());
+        //txtNombreUbicacion.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getUbinombre());
 
         TextView txtHoraInicial = (TextView) findViewById(R.id.horaInicial);
-        txtHoraInicial.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getHorhorai());
+        //txtHoraInicial.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getHorhorai());
 
         TextView txtHoraFinal = (TextView) findViewById(R.id.horaFina);
-        txtHoraFinal.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getHorhoraf());
+        //txtHoraFinal.setText(Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getHorhoraf());
 
-        int promedioInt = Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getProtiempo();
-        String promedioFormato = Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getProformato();
+        //int promedioInt = Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getProtiempo();
+        //String promedioFormato = Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getProformato();
 
         TextView txtPromedio = (TextView) findViewById(R.id.txtPromedioAtencion);
-        txtPromedio.setText(String.format("%1$s %2$s", promedioInt, promedioFormato));
+        //txtPromedio.setText(String.format("%1$s %2$s", promedioInt, promedioFormato));
 
         TextView txtEspera = (TextView) findViewById(R.id.txtTurnosEspera);
-        txtEspera.setText(String.format("%1$s %2$s", Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getTurno(), "Personas"));
+        //txtEspera.setText(String.format("%1$s %2$s", Entidades.getStaticEntidades().get(bundle.getInt("posicionEntida")).getListSedes().get(bundle.getInt("posicionSede")).getListUbicaciones().get(bundle.getInt("posicionUbicacion")).getTurno(), "Personas"));
 
     }
 
