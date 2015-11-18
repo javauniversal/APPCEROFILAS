@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,14 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import co.zonaapp.appcerofilas.Adapters.AdapterRecyclerView;
-import co.zonaapp.appcerofilas.Entities.Entidades;
 import co.zonaapp.appcerofilas.Entities.ListEntidades;
 import co.zonaapp.appcerofilas.R;
 
 public class ActEntidades extends AppCompatActivity implements SwipyRefreshLayout.OnRefreshListener {
 
     private RecyclerView recycler;
-    private RecyclerView.LayoutManager lManager;
     private RecyclerView.Adapter adapter;
     private SwipyRefreshLayout mSwipyRefreshLayout;
 
@@ -48,7 +45,7 @@ public class ActEntidades extends AppCompatActivity implements SwipyRefreshLayou
         recycler.setHasFixedSize(true);
 
         // Usar un administrador para LinearLayout
-        lManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);
 
         mSwipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.swipyrefreshlayout);
