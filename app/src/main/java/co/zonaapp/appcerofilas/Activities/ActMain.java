@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gcm.GCMRegistrar;
 import com.google.gson.Gson;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -70,9 +72,27 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
         mSwipyRefreshLayout = (SwipyRefreshLayout) findViewById(R.id.swipyrefreshlayout);
         mSwipyRefreshLayout.setOnRefreshListener(this);
 
+        //Carga los turnos pendientes
         LoadTurno();
 
+        //Valida las notificaciones del dispositivo
+        registerUser(this);
+
     }
+
+    private void registerUser(Context context){
+        GCMRegistrar.checkDevice(this);
+        GCMRegistrar.checkManifest(this);
+        final String regId = GCMRegistrar.getRegistrationId(context);
+        if (regId.equals("")) {
+            GCMRegistrar.register(context, "918001884534");
+            GCMRegistrar.setRegisteredOnServer(this, true);
+            Log.v("GCM", "Registrado");
+        } else {
+            Log.v("GCM", "Ya registrado");
+        }
+    }
+
 
     public void LoadTurno(){
         String url = String.format("%1$s%2$s", getString(R.string.url_base),"getListTurnos");
@@ -109,7 +129,6 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
         rq.add(jsonRequest);
     }
 
-
     private boolean parseJSON(String json) {
         boolean indicant = false;
         Gson gson = new Gson();
@@ -134,7 +153,6 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
 
         return indicant;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,4 +222,5 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
             }
         }, 2000 );
     }
+
 }

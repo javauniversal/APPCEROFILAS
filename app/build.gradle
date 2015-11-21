@@ -39,4 +39,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.1.0'
     compile 'com.github.vlonjatg:progress-activity:v1.0.3'
     compile 'com.malinskiy:materialicons:1.0.2'
+    compile files('libs/gcm.jar')
 }
