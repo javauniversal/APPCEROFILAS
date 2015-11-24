@@ -38,12 +38,14 @@ import co.zonaapp.appcerofilas.Adapters.AdapterRecyclerViewTurnos;
 import co.zonaapp.appcerofilas.Entities.ListTurnos;
 import co.zonaapp.appcerofilas.R;
 
+import static co.zonaapp.appcerofilas.Entities.Turno.setListTurnoStactic;
+
 public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnRefreshListener {
 
     private SwipyRefreshLayout mSwipyRefreshLayout;
     private RecyclerView recycler;
     private RecyclerView.Adapter adapter;
-
+    public ListTurnos listTurnos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
         mSwipyRefreshLayout.setOnRefreshListener(this);
 
         //Carga los turnos pendientes
-        LoadTurno();
+        loadAuto();
 
         //Valida las notificaciones del dispositivo
         registerUser(this);
@@ -93,8 +95,26 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
         }
     }
 
+    private void loadAuto(){
 
-    public void LoadTurno(){
+        final Handler handler = new Handler();
+        final Boolean[] refrest = {true};
+        handler.postDelayed( new Runnable() {
+
+            @Override
+            public void run() {
+
+                LoadTurno(refrest[0]);
+                refrest[0] = false;
+                handler.postDelayed(this, 70 * 1000);
+
+            }
+
+        }, 70 * 1000 );
+
+    }
+
+    public void LoadTurno(final Boolean refresh){
         String url = String.format("%1$s%2$s", getString(R.string.url_base),"getListTurnos");
         RequestQueue rq = Volley.newRequestQueue(this);
         StringRequest jsonRequest = new StringRequest(Request.Method.POST, url,
@@ -102,7 +122,8 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
                     @Override
                     public void onResponse(String response) {
                         // response
-                        parseJSON(response);
+                       parseJSON(response, refresh);
+
                     }
                 },
                 new Response.ErrorListener(){
@@ -129,29 +150,30 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
         rq.add(jsonRequest);
     }
 
-    private boolean parseJSON(String json) {
-        boolean indicant = false;
+    private void parseJSON(String json, Boolean refresh) {
         Gson gson = new Gson();
         if (!json.equals("[]")){
             try {
-
-                ListTurnos listTurnos = gson.fromJson(json, ListTurnos.class);
-
-                adapter = new AdapterRecyclerViewTurnos(this,listTurnos);
-                recycler.setAdapter(adapter);
+                if(refresh){
+                    listTurnos = gson.fromJson(json, ListTurnos.class);
+                    setListTurnoStactic(listTurnos);
+                    adapter = new AdapterRecyclerViewTurnos(this);
+                    recycler.setAdapter(adapter);
+                    mSwipyRefreshLayout.setRefreshing(false);
+                }else{
+                    listTurnos = gson.fromJson(json, ListTurnos.class);
+                    setListTurnoStactic(listTurnos);
+                    adapter.notifyDataSetChanged();
+                    mSwipyRefreshLayout.setRefreshing(false);
+                }
 
             }catch (IllegalStateException ex) {
                 ex.printStackTrace();
-                indicant = false;
+                mSwipyRefreshLayout.setRefreshing(false);
             }
         }else {
-            Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
-            intent.putExtra("STATE", "EMPTY");
-            startActivity(intent);
+            mSwipyRefreshLayout.setRefreshing(false);
         }
-
-
-        return indicant;
     }
 
     @Override
@@ -209,18 +231,14 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
 
     @Override
     public void onRefresh(SwipyRefreshLayoutDirection direction) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Hide the refresh after 2sec
-                ActMain.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipyRefreshLayout.setRefreshing(false);
-                    }
-                });
-            }
-        }, 2000 );
+        LoadTurno(false);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LoadTurno(true);
+    }
+
 
 }

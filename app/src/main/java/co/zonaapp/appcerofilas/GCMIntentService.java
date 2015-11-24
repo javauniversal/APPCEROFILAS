@@ -7,10 +7,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,6 +24,8 @@ import com.google.android.gcm.GCMBaseIntentService;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import co.zonaapp.appcerofilas.Activities.ActMain;
 
 public class GCMIntentService extends GCMBaseIntentService {
 
@@ -65,13 +68,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     private void registrarUsuario(final String username, final String regId, final Context context){
 
-        String url = String.format("http://zonaapp.co/admin_cero_fila/services/notificaciones/");
+        String url = "http://zonaapp.co/admin_cero_fila/services/notificaciones/";
         RequestQueue rq = Volley.newRequestQueue(this);
         StringRequest jsonRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(context, "Hola", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, "Hola", Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener(){
@@ -94,8 +97,9 @@ public class GCMIntentService extends GCMBaseIntentService {
     }
 
     private void notificarMensaje(Context context, String msg){
-        /*long[] vibrate = {100,100,200,300};
+        long[] vibrate = {100,100,200,300};
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         //.setSmallIcon(android.R.drawable.stat_sys_warning)
@@ -106,20 +110,19 @@ public class GCMIntentService extends GCMBaseIntentService {
                         .setContentInfo("San Pacho")
                         .setVibrate(vibrate).setAutoCancel(true)
                         .setLights(Color.RED, 1, 0)
+                        .setSound(alarmSound)
                         //.setPriority(Notification.PRIORITY_HIGH)
                         .setTicker("Alerta!");
 
-        Intent notIntent =
-                new Intent(context, splash_screen.class);
+        Intent notIntent = new Intent(context, ActMain.class);
 
         PendingIntent contIntent = PendingIntent.getActivity(context, 0, notIntent, 0);
 
         mBuilder.setContentIntent(contIntent);
 
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        mNotificationManager.notify(NOTIF_ALERTA_ID, mBuilder.build());*/
+        mNotificationManager.notify(NOTIF_ALERTA_ID, mBuilder.build());
 
     }
 }

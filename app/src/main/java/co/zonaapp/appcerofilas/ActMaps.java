@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,19 +38,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-import co.zonaapp.appcerofilas.Activities.DetailsActivity;
-import co.zonaapp.appcerofilas.Entities.Entidades;
+import co.zonaapp.appcerofilas.Activities.ActMain;
 import co.zonaapp.appcerofilas.Services.ServiceLocation;
 
 import static co.zonaapp.appcerofilas.Entities.Entidades.getEntidadSelect;
 import static co.zonaapp.appcerofilas.Entities.Entidades.getSedes;
-import static co.zonaapp.appcerofilas.Entities.Sedes.getListAreasStatic;
 import static co.zonaapp.appcerofilas.Entities.Ubicaciones.getUbicaciones;
 
 public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
@@ -56,6 +55,11 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
     private ServiceLocation appLocationService;
     private Location nwLocation;
     AlertDialog alertDialog;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,9 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         });
 
         initialText();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -172,34 +179,31 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
     }
 
     //Calculo tiempo minutos
-    private double calculoTiempo(double recorrido){
+    private double calculoTiempo(double recorrido) {
 
         double disCalculo = distancia() * 1000; //Convertir km * Metros * Segundos
         double minutosSegundo = disCalculo / recorrido;
-        double result = minutosSegundo * 1 / 60;
 
         //String val = String.valueOf(result);
         //BigDecimal big = new BigDecimal(val);
         //big = big.setScale(2, RoundingMode.HALF_UP);
 
-        return result;
+        return minutosSegundo * 1 / 60;
     }
 
     //Calcula la distancia de un puto a otro
-    private float distancia(){
+    private float distancia() {
         nwLocation = appLocationService.getLocation();
 
         Location locationD = new Location("point D");
         locationD.setLatitude(getUbicaciones().getLatitud());
         locationD.setLongitude(getUbicaciones().getLongitud());
 
-        float distance = Math.round(nwLocation.distanceTo(locationD) / 1000);
-
-        return distance;
+        return (float) Math.round(nwLocation.distanceTo(locationD) / 1000);
     }
 
     //Marcadores en el mapa
-    private void markerMaps(){
+    private void markerMaps() {
 
         LatLng entidad = new LatLng(getUbicaciones().getLatitud(), getUbicaciones().getLongitud());
 
@@ -208,7 +212,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(entidad)      // Sets the center of the map to LatLng (refer to previous snippet)
                 .zoom(12)             // Sets the zoom
-                // .bearing(50)       // Sets the orientation of the camera to east
+                        // .bearing(50)       // Sets the orientation of the camera to east
                 .tilt(45)             // Sets the tilt of the camera to 30 degrees
                 .build();             // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -216,7 +220,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
     }
 
     //Marcador de la distancia de un punto a otro
-    private void markerDistance(){
+    private void markerDistance() {
         mMap.addPolyline(new PolylineOptions()
                 .add(new LatLng(getUbicaciones().getLatitud(), getUbicaciones().getLongitud()),
                         new LatLng(nwLocation.getLatitude(), nwLocation.getLongitude()))
@@ -225,7 +229,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
     }
 
     //Seleccionar el medio de transporte
-    public void dialogMedioTransporte(){
+    public void dialogMedioTransporte() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.items_medio_transporte, null);
@@ -251,20 +255,24 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
     }
 
     //Metodo http servicio
-    private void setPedirTurno(final double tiempo){
+    private void setPedirTurno(final double tiempo) {
         alertDialog.dismiss();
         String url = String.format("%1$s%2$s", getString(R.string.url_base), "setPedirTurno");
         RequestQueue rq = Volley.newRequestQueue(this);
         StringRequest jsonRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>(){
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // response
                         //parseJSON(response);
                         Toast.makeText(ActMaps.this, response, Toast.LENGTH_LONG).show();
+
+                        startActivity(new Intent(ActMaps.this, ActMain.class));
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                     }
                 },
-                new Response.ErrorListener(){
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
@@ -276,7 +284,7 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
                 params.put("idEntidad", String.valueOf(getEntidadSelect().getIdEntidad()));
                 params.put("idSede", String.valueOf(getSedes().getSedid()));
@@ -293,4 +301,43 @@ public class ActMaps extends FragmentActivity implements OnMapReadyCallback {
         rq.add(jsonRequest);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ActMaps Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://co.zonaapp.appcerofilas/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ActMaps Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://co.zonaapp.appcerofilas/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }

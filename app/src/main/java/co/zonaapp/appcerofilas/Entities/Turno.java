@@ -3,6 +3,8 @@ package co.zonaapp.appcerofilas.Entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Turno {
 
     @SerializedName("turid")
@@ -28,6 +30,38 @@ public class Turno {
 
     @SerializedName("ubinombre")
     private String ubinombre;
+
+    @SerializedName("turno")
+    private int turno;
+
+    @SerializedName("protiempo")
+    private int protiempo;
+
+    public static List<Turno> listTurnoStactic;
+
+    public static List<Turno> getListTurnoStactic() {
+        return listTurnoStactic;
+    }
+
+    public static void setListTurnoStactic(List<Turno> listTurnoStactic) {
+        Turno.listTurnoStactic = listTurnoStactic;
+    }
+
+    public int getProtiempo() {
+        return protiempo;
+    }
+
+    public void setProtiempo(int protiempo) {
+        this.protiempo = protiempo;
+    }
+
+    public int getTurno() {
+        return turno;
+    }
+
+    public void setTurno(int turno) {
+        this.turno = turno;
+    }
 
     public int getTurid() {
         return turid;
