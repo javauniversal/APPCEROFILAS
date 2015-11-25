@@ -46,6 +46,7 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
     private RecyclerView recycler;
     private RecyclerView.Adapter adapter;
     public ListTurnos listTurnos;
+    public Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,20 +98,16 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
 
     private void loadAuto(){
 
-        final Handler handler = new Handler();
+        handler = new Handler();
         final Boolean[] refrest = {true};
         handler.postDelayed( new Runnable() {
-
             @Override
             public void run() {
-
                 LoadTurno(refrest[0]);
                 refrest[0] = false;
-                handler.postDelayed(this, 70 * 1000);
-
+                handler.postDelayed(this, 10 * 1000);
             }
-
-        }, 70 * 1000 );
+        }, 10 * 1000 );
 
     }
 
@@ -238,6 +235,12 @@ public class ActMain extends AppCompatActivity implements SwipyRefreshLayout.OnR
     protected void onResume() {
         super.onResume();
         LoadTurno(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
     }
 
 
